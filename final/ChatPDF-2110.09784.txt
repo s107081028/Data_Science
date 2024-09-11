@@ -1,0 +1,36 @@
+PDF: Hello and welcome to this helpful PDF file on SSAST: Self-Supervised Audio Spectrogram Transformer! In this document, you will find valuable information about the application of self-attention neural networks in the audio domain, specifically focusing on audio and speech classification. The aim is to reduce the reliance on large amounts of labeled data by leveraging self-supervised learning using unlabeled data. This approach has the potential to enhance the practical usage of AST models and improve audio classification performance. 
+
+Example questions you can ask about this PDF file:
+1. How does the SSAST model compare to traditional convolutional neural networks (CNNs) in audio classification tasks?
+2. What is the significance of self-supervised learning in reducing the need for labeled data in AST models?
+3. Could you provide more details about the joint discriminative and generative masked spectrogram patch modeling (MSPM) technique used for pretraining the AST model?
+
+Me: How does the clustering work?
+
+PDF: The clustering in the MSPM technique is controlled by a parameter called the cluster factor C. A larger C forces the model to learn more global spectrogram structure, while a smaller C forces the model to learn more local structure. During pretraining, the model is trained with random values of C between 3 and 5 to learn both local and global structure. The patches are split without overlap during pretraining to prevent the model from using overlapped edges as a shortcut for the task prediction instead of learning a meaningful representation.
+
+Me: What does the clustering do in the task, and how does it affect downstream classification?
+
+PDF: The clustering in the MSPM technique is used to split the input spectrogram into smaller patches, which are then converted into corresponding patch embeddings. These embeddings are then used to train the AST model in a self-supervised manner. The clustering affects downstream classification by improving the model's ability to learn both local and global structure in the input spectrogram. This, in turn, improves the model's ability to extract meaningful features from the audio data, which can be used for downstream tasks such as audio and speech classification. The performance of the pretraining tasks and downstream tasks are highly correlated, and the model pretrained with more iterations generally performs better on downstream tasks, which confirms that the pretraining pretext tasks benefit all downstream tasks. [T1, T2, T3]
+
+Me: How was the clustering evaluated, and may you explain the details of how it split spectrograms?
+
+PDF: The clustering was evaluated by comparing the performance of the AST model trained with different cluster factors C on downstream audio classification tasks. The results showed that the model trained with a cluster factor of 3 achieved the best performance on the downstream tasks. 
+
+During pretraining, the spectrogram patches are split without overlap to prevent the model from using overlapped edges as a shortcut for the task prediction instead of learning a meaningful representation. Specifically, the spectrogram is split into non-overlapping patches of size 128x128 pixels. The patches are then randomly masked with a certain percentage of their pixels, and the model is trained to predict the masked pixels. The cluster factor C controls the number of patches that are masked during each training iteration. A larger C forces the model to learn more global spectrogram structure, while a smaller C forces the model to learn more local structure. During pretraining, the model is trained with random values of C between 3 and 5 to learn both local and global structure. [T1, T2, T3]
+
+Me: Why does a  larger C forces the model to learn more global spectrogram structure, while a smaller C forces the model to learn more local structure?
+
+PDF: A larger cluster factor C in the MSPM technique forces the model to learn more global spectrogram structure because it increases the size of the patches used for training. When the patches are larger, they capture a wider range of frequencies and temporal information from the spectrogram. This allows the model to learn patterns and structures that span across a larger portion of the spectrogram, leading to a more global understanding of the audio.
+
+On the other hand, a smaller cluster factor C forces the model to learn more local structure because it reduces the size of the patches used for training. Smaller patches focus on capturing finer details and local variations in the spectrogram. This enables the model to learn more localized patterns and structures within the audio.
+
+By using a range of cluster factors during pretraining, such as random values of C between 3 and 5, the model is exposed to both local and global structures in the spectrogram. This helps the model to learn a comprehensive representation that incorporates both fine-grained details and broader context, making it more effective for downstream audio classification tasks. [T2, T3]
+
+Me: Which parts of the methods do self-supervised refers to, and how does joint-discriminative-and-generative affect downstream finetuning? 
+
+PDF: In the context of the given texts, "self-supervised" refers to the pretraining phase of the model. Self-supervised learning is a type of unsupervised learning where the model learns from the data itself without relying on explicit labels. In this case, the model is pretrained using the MSPM framework, which involves predicting masked patches in the spectrogram. This self-supervised pretraining helps the model learn meaningful representations from the audio data.
+
+The term "joint discriminative and generative" refers to the objective used during the pretraining phase. Instead of using only a discriminative or generative objective, the proposed framework combines both objectives. The discriminative objective focuses on predicting the masked patches in the spectrogram, while the generative objective aims to reconstruct the original spectrogram from the predicted patches. By jointly optimizing both objectives, the model learns to capture both discriminative and generative aspects of the audio data.
+
+The joint discriminative and generative pretraining has a positive impact on downstream finetuning. It improves the performance of the AST model on all downstream tasks with an average improvement of 60.9%. This suggests that the combination of discriminative and generative objectives during pretraining helps the model learn more robust and informative representations, which leads to better generalization capability. Additionally, pretraining the model on both speech and audio datasets further enhances its generalization ability and performance on downstream tasks compared to pretraining with data from a single domain. This indicates that the joint discriminative and generative pretraining, along with the use of diverse datasets, contributes to the model's improved performance in various audio classification tasks. [T2, T3]
